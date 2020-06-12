@@ -7,13 +7,18 @@ use CodeIgniter\Controller;
 class MainController extends Controller
 {
 
+
     public function siteMap()
     {
-        return view('main/siteMap.php');
+        return view('siteMap.php');
     }
 
     public function legalNotices()
     {
-        return view('main/legalNotices.php');
+        $data = [
+            'title' => 'Mentions légales'
+        ];
+
+        return view('legalNotices.php', $data);
     }
 }
