@@ -9,11 +9,18 @@ class MainController extends Controller
 
     public function siteMap()//Mentions légales
     {
-        return view('main/siteMap.php');
+        $data = [
+            'title' => 'Plan du site'
+        ];
+        return view('main/siteMap.php', $data);
     }
 
     public function legalNotices()//Plan du site
     {
-        return view('main/legalNotices.php');
+        $data = [
+            'title' => 'Mentions légales'
+        ];
+
+        return view('main/legalNotices.php', $data);
     }
 }

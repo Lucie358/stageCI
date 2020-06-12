@@ -1,1 +1,5 @@
-<?php echo "je suis la page du plan du site" ?>
+<?= $this->extend('layout') ?>
+
+<?= $this->section('content') ?>
+<p>Petit plan du site</p>
+<?= $this->endSection() ?>
