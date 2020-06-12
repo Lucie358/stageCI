@@ -12,6 +12,7 @@ class CompanyController extends Controller
 		$companyModel = new CompanyModel();
 
 		$data = [
+			"title" => "Accueil",
 			"companies" => $companyModel->getAll()
 		];
 		return view('company/index.php', $data);
@@ -43,6 +44,7 @@ class CompanyController extends Controller
 		$companyModel = new CompanyModel();
 
 		$data = [
+			"title" => "Entreprise",
 			"companies" => $companyModel->getAll()
 		];
 		return view('company/index.php', $data);
@@ -53,6 +55,8 @@ class CompanyController extends Controller
 		$companyModel = new CompanyModel();
 
 		$data = [
+			"title" => "Accueil",
+
 			"companies" => $companyModel->getAll()
 		];
 		return view('company/companies.php', $data);
