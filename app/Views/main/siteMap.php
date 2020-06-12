@@ -1,0 +1,1 @@
+<?php echo "je suis la page du plan du site" ?>

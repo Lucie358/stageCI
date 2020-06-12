@@ -1,0 +1,1 @@
+<?php echo "je suis la page des mentions légales" ?>
