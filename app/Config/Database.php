@@ -47,7 +47,7 @@ class Database extends \CodeIgniter\Database\Config
         'encrypt'  => FALSE,
         'compress' => FALSE,
         'strictOn' => FALSE,
-        'failover' => [],
+		'failover' => [],
 ];
 
 	/**
