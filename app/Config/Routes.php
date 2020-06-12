@@ -30,18 +30,18 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'CompanyController::index');
-$routes->get('/log-in', 'SecurityController::login');
-$routes->get('/sign-in', 'SecurityController::signIn');
-$routes->get('/log-out', 'SecurityController::logOut');
-$routes->get('/admin', 'CompanyController::admin');
-$routes->get('/admin/edit', 'CompanyController::adminEdit');
-$routes->get('/admin/add', 'CompanyController::adminAdd');
-$routes->get('/admin/remove', 'CompanyController::adminRemove');
-$routes->get('/internship', 'CompanyController::internship');
-$routes->get('/companies', 'CompanyController::companies');
-$routes->get('/legal-notices', 'MainController::legalNotices');
-$routes->get('/site-map', 'MainController::siteMap');
+$routes->get('/', 'CompanyController::index',['as' => 'index']);
+$routes->get('/log-in', 'SecurityController::login',['as' => 'login']);
+$routes->get('/sign-in', 'SecurityController::signIn',['as' => 'signIn']);
+$routes->get('/log-out', 'SecurityController::logOut',['as' => 'logOut']);
+$routes->get('/admin', 'CompanyController::admin',['as' => 'admin']);
+$routes->get('/admin/edit', 'CompanyController::adminEdit',['as' => 'adminEdit']);
+$routes->get('/admin/add', 'CompanyController::adminAdd',['as' => 'adminAdd']);
+$routes->get('/admin/remove', 'CompanyController::adminRemove',['as' => 'adminRemove']);
+$routes->get('/internship', 'CompanyController::internship',['as' => 'internship']);
+$routes->get('/companies', 'CompanyController::companies',['as' => 'companies']);
+$routes->get('/legal-notices', 'MainController::legalNotices',['as' => 'legalNotices']);
+$routes->get('/site-map', 'MainController::siteMap',['as' => 'siteMap']);
 
 
 /**
