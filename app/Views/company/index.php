@@ -1,1 +1,1 @@
-<?php echo "coucou" ?>
+<?php var_dump($companies)?>
