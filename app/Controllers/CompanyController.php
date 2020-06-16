@@ -17,10 +17,19 @@ class CompanyController extends Controller
 		$companyModel = new CompanyModel();
 		$cityModel = new CityModel();
 
+		
+		$companies = $companyModel->getAll();
+
+		$cityInfos =[];
+		foreach($companies as $entreprise)
+		{
+			$cityInfos[] = $cityModel->getCityInfos($entreprise['city'])[0];
+		}
+		
 		$data = [
 			 "title" => "Acceuil"
-			,"companies" => $companyModel->getAll()
-			,"cities" => $cityModel->getAll()
+			,"companies" => $companies
+			,"cities" => $cityInfos
 		];
 		return view('company/index.php', $data);
 	}

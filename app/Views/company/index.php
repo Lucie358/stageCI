@@ -1,15 +1,6 @@
-<?php var_dump($companies);
-echo ('-/-');
-
-foreach ($companies as $entreprises)
+<?php 
+foreach ($cities as $row)
 {
-    foreach ($cities as $ville)
-    {
-        if($ville['name'] == $entreprises['city'])
-        {
-            var_dump($ville);
-            break;
-        }
-    }
+    echo $row->region;
 }
 ?>
