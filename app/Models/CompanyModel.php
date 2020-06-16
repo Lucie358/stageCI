@@ -7,18 +7,14 @@ use CodeIgniter\Model;
 class CompanyModel extends Model
 {
     protected $table = 'Company';
-    protected $primaryKey = 'id';
-    protected $name = 'name';
-    protected $address = 'address';
+    protected $name = ['name'];
+    protected $address = ['address'];
+    protected $city = ['city'];
 
-    protected $city = 'city';
 
-    public function getCities(){
-      
 
+    public function getAll()
+    {
+        return $this->findAll();
     }
-
-
-
-
 }

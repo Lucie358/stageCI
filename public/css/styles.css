@@ -1,0 +1,17 @@
+.companies {
+    display:flex;
+    flex-wrap: wrap;
+}
+.companiesContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  max-width: 1400px;
+  margin: auto;
+  margin-top: 15px;
+  background-color: lightblue;
+}
+.card {
+    margin: 10px 10px;
+    flex: 0 0 22%;
+}

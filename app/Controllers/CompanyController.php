@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\CityModel;
@@ -9,32 +10,23 @@ use App\Models\UserModel;
 
 use CodeIgniter\Controller;
 
-class CompanyController extends Controller
+class CompanyController extends BaseController
 {
 
-	
-    //Route accueil
-    public function index() //Liste des annonces / Page d’accueil
+
+	//Route accueil
+	public function index() //Liste des annonces / Page d’accueil
 	{
-	
-		$query = $this->db->query('SELECT name FROM Company');
-
-		var_dump($query->result());
-		exit;
-
-
 
 		$companyModel = new CompanyModel();
-		$sql = $companyModel->findAll();
-
-	
-
-
-		$data = [
-			 "title" => "Acceuil"
-			,"companies" => $companyModel->getAll()
-		];
+		$cityModel = new CityModel();
 		
+		$data = [
+			"title" => "Accueil", 
+			"companies" => $companyModel->getAll(),
+			 "cities" => $cityModel->getAll()
+		];
+
 		return view('company/index.php', $data);
 	}
 
@@ -52,7 +44,6 @@ class CompanyController extends Controller
 			"title" => "Modifier l'annonce"
 		];
 		return view('company/edit.php');
-		
 	}
 
 	public function adminAdd() //Ajout d’une annonce (réservé aux admins)
@@ -65,7 +56,6 @@ class CompanyController extends Controller
 
 	public function adminRemove() //Suppression d’une annonces (réservé aux admins)
 	{
-		
 	}
 
 	public function internship() //Détails de l’annonce “id” (nécessite une connexion)
@@ -73,8 +63,7 @@ class CompanyController extends Controller
 		$companyModel = new CompanyModel();
 
 		$data = [
-			 "title" => "Détails"
-			,"companies" => $companyModel->getAll()
+			"title" => "Détails", "companies" => $companyModel->getAll()
 		];
 		return view('company/index.php', $data);
 	}
@@ -84,8 +73,7 @@ class CompanyController extends Controller
 		$companyModel = new CompanyModel();
 
 		$data = [
-			 "title" => "Annonceurs"
-			,"companies" => $companyModel->getAll()
+			"title" => "Annonceurs", "companies" => $companyModel->getAll()
 		];
 		return view('company/companies.php', $data);
 	}

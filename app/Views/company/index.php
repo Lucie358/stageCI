@@ -1,28 +1,26 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
-<h2>Les entreprises qui proposent un stage:</h2>
 
-<div class = "companiesContainer">
+<div class="companiesContainer">
+    
+    <h2>Les entreprises qui proposent un stage:</h2>
+<div class="companies">
     <?php
     foreach ($companies as $entreprise) :
-        var_dump($entreprise->city);
+        foreach ($cities as $ville) :
+            if ($ville['name'] == $entreprise['city']) :
     ?>
-        <div class="row">
-            <div class="col s12 m2">
-                <div class="card white">
-                    <div class="card-content black-text">
-                        <span class="card-title"><?php echo $entreprise->name ?></span>
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="#">En savoir plus</a>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $entreprise['name']; ?></h5>
+                        <p class="card-text"><?php echo $ville['name'] . " - " . $ville['department']; ?></p>
+                        <a href="#" class="card-link">En savoir +</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    <?php
+    <?php endif;
+        endforeach;
     endforeach;
     ?>
+    </div>
 </div>
 <?= $this->endSection() ?>
