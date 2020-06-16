@@ -11,15 +11,30 @@ use CodeIgniter\Controller;
 
 class CompanyController extends Controller
 {
+
+	
     //Route accueil
     public function index() //Liste des annonces / Page d’accueil
 	{
+	
+		$query = $this->db->query('SELECT name FROM Company');
+
+		var_dump($query->result());
+		exit;
+
+
+
 		$companyModel = new CompanyModel();
+		$sql = $companyModel->findAll();
+
+	
+
 
 		$data = [
 			 "title" => "Acceuil"
 			,"companies" => $companyModel->getAll()
 		];
+		
 		return view('company/index.php', $data);
 	}
 
