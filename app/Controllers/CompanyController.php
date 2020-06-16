@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\CityModel;
@@ -11,9 +12,12 @@ use CodeIgniter\Controller;
 
 class CompanyController extends BaseController
 {
-    //Route accueil
-    public function index() //Liste des annonces / Page d’accueil
+
+
+	//Route accueil
+	public function index() //Liste des annonces / Page d’accueil
 	{
+
 		$companyModel = new CompanyModel();
 		$cityModel = new CityModel();
 
@@ -27,10 +31,11 @@ class CompanyController extends BaseController
 		}
 
 		$data = [
-			 "title" => "Acceuil"
+			 "title" => "Accueil"
 			,"companies" => $companies
 			,"cities" => $cityInfos
 		];
+
 		return view('company/index.php', $data);
 	}
 
@@ -48,7 +53,6 @@ class CompanyController extends BaseController
 			"title" => "Modifier l'annonce"
 		];
 		return view('company/edit.php');
-		
 	}
 
 	public function adminAdd() //Ajout d’une annonce (réservé aux admins)
@@ -61,7 +65,6 @@ class CompanyController extends BaseController
 
 	public function adminRemove() //Suppression d’une annonces (réservé aux admins)
 	{
-		
 	}
 
 	public function internship() //Détails de l’annonce “id” (nécessite une connexion)
@@ -69,8 +72,7 @@ class CompanyController extends BaseController
 		$companyModel = new CompanyModel();
 
 		$data = [
-			 "title" => "Détails"
-			,"companies" => $companyModel->getAll()
+			"title" => "Détails", "companies" => $companyModel->getAll()
 		];
 		return view('company/index.php', $data);
 	}
@@ -80,8 +82,7 @@ class CompanyController extends BaseController
 		$companyModel = new CompanyModel();
 
 		$data = [
-			 "title" => "Annonceurs"
-			,"companies" => $companyModel->getAll()
+			"title" => "Annonceurs", "companies" => $companyModel->getAll()
 		];
 		return view('company/companies.php', $data);
 	}
