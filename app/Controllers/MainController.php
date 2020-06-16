@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class MainController extends Controller
+class MainController extends BaseController
 {
 
     public function siteMap()//Mentions légales
