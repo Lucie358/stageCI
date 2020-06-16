@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Database\BaseBuilder;
 
 class CityModel extends Model
 {
@@ -25,13 +26,15 @@ class CityModel extends Model
 
     public function getCityInfos($cityname)
     {
-        $builder->db->table('City');
+        $db = \Config\Database::connect();
+        $builder = $db->table('City');
+        //$builder->db->table('City');
         $builder->select('*');
         if (isset($cityname))
         {
             $builder->where('name', $cityname);
         }
         $query = $builder->get();
-        return $query;
+        return $query->getResult();
     }
 }
