@@ -15,10 +15,12 @@ class CompanyController extends Controller
     public function index() //Liste des annonces / Page d’accueil
 	{
 		$companyModel = new CompanyModel();
+		$cityModel = new CityModel();
 
 		$data = [
 			 "title" => "Acceuil"
 			,"companies" => $companyModel->getAll()
+			,"cities" => $cityModel->getAll()
 		];
 		return view('company/index.php', $data);
 	}

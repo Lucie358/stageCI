@@ -22,4 +22,16 @@ class CityModel extends Model
     {
         return $this->findAll();
     }
+
+    public function getCityInfos($cityname)
+    {
+        $builder->db->table('City');
+        $builder->select('*');
+        if (isset($cityname))
+        {
+            $builder->where('name', $cityname);
+        }
+        $query = $builder->get();
+        return $query;
+    }
 }
