@@ -9,7 +9,7 @@ use App\Models\UserModel;
 
 use CodeIgniter\Controller;
 
-class CompanyController extends Controller
+class CompanyController extends BaseController
 {
     //Route accueil
     public function index() //Liste des annonces / Page d’accueil
@@ -25,7 +25,7 @@ class CompanyController extends Controller
 		{
 			$cityInfos[] = $cityModel->getCityInfos($entreprise['city'])[0];
 		}
-		
+
 		$data = [
 			 "title" => "Acceuil"
 			,"companies" => $companies
