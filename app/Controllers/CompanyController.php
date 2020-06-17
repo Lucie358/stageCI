@@ -29,7 +29,7 @@ class CompanyController extends BaseController
 		{
 			$cityInfos[] = $cityModel->getCityInfos($entreprise['city'])[0];
 		}
-		
+
 		$data = [
 			 "title" => "Accueil"
 			,"companies" => $companies
