@@ -1,5 +1,8 @@
+<?= $this->extend('layout') ?>
+<?= $this->section('content') ?>
+
 <h1>logIn</h1>
-<body>
+
         <form action="<?= site_url(route_to('authentication')) ?>" method="post">
             
             <div>
@@ -15,4 +18,3 @@
                 <input type="submit" name=connect value="login">
             </div>
         </form>
-    </body>

@@ -1,0 +1,3 @@
+<pre>
+<?php var_dump($_SESSION['userData'])?>
+</pre>
