@@ -17,6 +17,7 @@ class CompanyController extends BaseController
 	//Route accueil
 	public function index() //Liste des annonces / Page d’accueil
     {
+		$this->sessionCheck();
 
         $companyModel = new CompanyModel();
         $cityModel = new CityModel();
@@ -40,12 +41,13 @@ class CompanyController extends BaseController
             ,"companies" => $companies
             ,"cities" => $cityInfos
         ];
-
+		//return view('test.php', $data);
         return view('company/index.php', $data);
     }
 
 	public function admin() //Toutes les offres - table CRUD
 	{
+		
 		$data = [
 			"title" => "Administration"
 		];
@@ -74,6 +76,8 @@ class CompanyController extends BaseController
 
 	public function internship() //Détails de l’annonce “id” (nécessite une connexion)
 	{
+		$this->sessionCheck();
+
 		$companyModel = new CompanyModel();
 
 		$data = [
@@ -84,11 +88,22 @@ class CompanyController extends BaseController
 
 	public function companies() //Liste de toutes les entreprises de la BDD
 	{
+		$this->sessionCheck();
 		$companyModel = new CompanyModel();
 
 		$data = [
 			"title" => "Annonceurs", "companies" => $companyModel->getAll()
 		];
 		return view('company/companies.php', $data);
+	}
+
+	public function sessionCheck()
+	{
+		if(!isset($_SESSION['userData']))
+		{
+			$userModel = new UserModel();
+			$userInfos = $userModel->getUserInfos('Visiteur');
+			$_SESSION['userData'] = clone $userInfos[0];
+		}
 	}
 }

@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <div class="companiesContainer">
-    
+    <h1> Bonjour <?php echo $_SESSION['userData']->username ?></h1>
     <h2>Les entreprises qui proposent un stage:</h2>
 <div class="companies">
     <?php

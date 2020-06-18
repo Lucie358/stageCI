@@ -31,8 +31,21 @@
                     <a class="nav-item nav-link" href="<?= site_url(route_to('admin')) ?>">Administration</a>
                 </div>
                 <div class="d-flex">
+                    <?php if($_SESSION['userData']->lvlrights < 0)
+                    {
+?>
                     <a class="nav-item nav-link" href="<?= site_url(route_to('login')) ?>">Connexion</a>
-                    <a class="nav-item nav-link" href="<?= site_url(route_to('signin')) ?>">Inscription</a>
+<?php
+                    }
+                    else
+                    {
+?>
+                    <a class="nav-item nav-link" href="<?= site_url(route_to('logOut')) ?>">Déconnexion</a>
+<?php
+                    }
+
+?>
+                    <a class="nav-item nav-link" href="<?= site_url(route_to('signIn')) ?>">Inscription</a>
                 </div>
             </div>
         </div>

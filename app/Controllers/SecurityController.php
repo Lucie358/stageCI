@@ -9,69 +9,76 @@ class SecurityController extends BaseController
  
     public function login() //Pour se connecter
     {
-		return view('security/log-in.php');
+		  return view('security/log-in.php');
     }
 
     public function authentication()
     {
       $userModel = new UserModel();
       $userInfos = $userModel->getUserInfos($_POST['id']);
-      if(count($userInfos) > 0)
-      {
-      $userInfos = $userModel->getUserInfos($_POST['id'])[0];
-      }
-      else 
-      {
-        $this->badLoginInfos();
-      }
+      $autorized = false;
 
-      if(isset($userInfos->pwd) && $_POST['pwd'])
-      {
-        if($userInfos->pwd == $_POST['pwd'])
+        if(count($userInfos) > 0)
         {
-          $this->goodLoginInfos($userInfos);
+          $userInfos = $userModel->getUserInfos($_POST['id'])[0];
         }
-        else 
+
+        if(isset($userInfos->pwd) && $_POST['pwd'])
         {
-          $this->badLoginInfos();
+            if($userInfos->pwd == $_POST['pwd'])
+            {
+              $autorized = true;
+            }
+
         }
-      }
-      else 
-      {
-        $this->badLoginInfos();
-      }
+
+
+        if($autorized)
+        {
+          $_SESSION['userData'] = clone $userInfos;
+                $data = [
+                  "title" => "Accueil"
+              ];
+              return redirect()->route('index');
+        }
+        else
+        {
+          return view('security/log-in.php');
+        }
     }
 
     public function signIn() //Pour s’inscrire
     {
-		return view('security/sign-in.php');
+		  return view('security/sign-in.php');
     }
 
     public function addMember() //Pour s’inscrire
     {
-		return view('security/sign-in.php');
+		  return view('security/sign-in.php');
     }
 
     public function logOut() //Pour se déconnecter
     {
         //logout
+        session_destroy();
+        return redirect()->route('index');
     }
 
-    public function goodLoginInfos($datas)
+    /*public function goodLoginInfos($info)
     {
-      $_SESSION['userData'] = clone $datas;
+      $_SESSION['userData'] = clone $info;
       $data = [
         "title" => "Accueil"
        ,"userData" => $_SESSION['userData']
-       ,"datas" => $datas
      ];
-      return view('test.php', $data);
+    return view('test.php', $data);
     }
 
     public function badLoginInfos()
     {
-      return redirect()->back();
+      //return redirect()->route('index');
       //header('Location: '.site_url(route_to('login')));
-      //return view('security/log-in.php');
-    }
+      
+      
+    }*/
 }

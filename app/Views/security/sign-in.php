@@ -1,5 +1,8 @@
+<?= $this->extend('layout') ?>
+<?= $this->section('content') ?>
+
 <p>signIn</p>
-<body>
+
         <form action="form.php" method="get">
             
             <div>
@@ -19,4 +22,3 @@
                 <input type="submit" name=register value="signin">
             </div>
         </form>
-    </body>
