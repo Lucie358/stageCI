@@ -16,6 +16,10 @@
         </tr>
     </tbody>
 </table>
+<?php 
+if($contactInfos)
+{
+?>
 <caption>Contact</caption>
 <table class="table table-striped">
     <thead>
@@ -33,4 +37,13 @@
         </tr>
     </tbody>
 </table>
+<?php
+}
+else
+{
+?>
+<strong> Cette entreprise n'as pas partagé de contact</strong>
+<?php
+}
+?>
 <?= $this->endSection() ?>

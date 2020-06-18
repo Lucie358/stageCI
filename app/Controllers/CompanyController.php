@@ -131,7 +131,8 @@ class CompanyController extends BaseController
 		$companyModel = new CompanyModel();
 
 		$data = [
-			"title" => "Annonceurs", "companies" => $companyModel->getAll()
+			"title" => "Annonceurs"
+			, "companies" => $companyModel->getAll()
 		];
 		return view('company/companies.php', $data);
 	}
@@ -145,4 +146,5 @@ class CompanyController extends BaseController
 			$_SESSION['userData'] = clone $userInfos[0];
 		}
 	}
+	
 }
