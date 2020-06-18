@@ -16,6 +16,7 @@ class SecurityController extends BaseController
     {
       $userModel = new UserModel();
       $userInfos = $userModel->getUserInfos($_POST['id']);
+      
       if(count($userInfos) > 0)
       {
       $userInfos = $userModel->getUserInfos($_POST['id'])[0];

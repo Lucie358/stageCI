@@ -7,12 +7,8 @@ use CodeIgniter\Model;
 class ContactModel extends Model
 {
     protected $table = 'Contact';
-    protected $id = ['id'];
-    protected $firstname = ['firstname'];
-    protected $name = ['name'];
-    protected $mail = ['mail'];
-    protected $phone = ['phone'];
-    protected $idEnt = ['idEnt'];
+    protected $allowedFields = ['name', 'firstname', 'mail','phone','idEnt'];
+
 
 
 

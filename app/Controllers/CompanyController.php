@@ -36,8 +36,8 @@ class CompanyController extends BaseController
 
 		$data = [
 			"title" => "Accueil",
-			 "companies" => $companies, 
-			 "cities" => $cityInfos
+			"companies" => $companies,
+			"cities" => $cityInfos
 		];
 
 		return view('company/index.php', $data);
@@ -72,20 +72,59 @@ class CompanyController extends BaseController
 		$data = [
 			"title" => "Modifier l'annonce"
 		];
-		return view('company/edit.php');
+		return view('company/edit.php', $data);
 	}
 
 	public function adminAdd() //Ajout d’une annonce (réservé aux admins)
 	{
-		$data = [
-			"title" => "Nouvelle annonce"
-		];
-		return view('company/add.php');
+        helper('form');
+		$company = new CompanyModel();
+		$contact = new ContactModel();
+		$cityModel = new CityModel();
+		$cities = $cityModel->getAll();
+
+		$data=['title' => 'Creation d\'une nouvelle
+		tache', "cities" => $cities];
+
+		echo view('company/add',$data);
+
+		if ($this->validate(['name' =>
+        'required|min_length[3]|max_length[30]'])) {
+            $company->save([
+				'name' => $this->request->getVar('name'),
+				'address' => $this->request->getVar('address'),
+                'city' => $this->request->getVar('cities'),
+				
+				
+			]);
+			
+			$contact->save([
+				'firstname' => $this->request->getVar('firstname'),
+				'name' => $this->request->getVar('lastname'),
+				'phone' => $this->request->getVar('phone'),
+				'mail' => $this->request->getVar('mail'),	
+				'idEnt' => $company->insertID,						
+
+				
+            ]);
+			
+            return redirect('admin');
+        }
+
+				
 	}
+
+
+
+
+
 
 	public function adminRemove() //Suppression d’une annonces (réservé aux admins)
 	{
 	}
+
+
+
 
 	public function internship() //Détails de l’annonce “id” (nécessite une connexion)
 	{
