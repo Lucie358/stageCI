@@ -9,70 +9,123 @@ class SecurityController extends BaseController
  
     public function login() //Pour se connecter
     {
-		return view('security/log-in.php');
+		  return view('security/log-in.php');
     }
+
 
     public function authentication()
     {
       $userModel = new UserModel();
       $userInfos = $userModel->getUserInfos($_POST['id']);
-      
-      if(count($userInfos) > 0)
-      {
-      $userInfos = $userModel->getUserInfos($_POST['id'])[0];
-      }
-      else 
-      {
-        $this->badLoginInfos();
-      }
+      $autorized = false;
 
-      if(isset($userInfos->pwd) && $_POST['pwd'])
-      {
-        if($userInfos->pwd == $_POST['pwd'])
+        if(count($userInfos) > 0)
         {
-          $this->goodLoginInfos($userInfos);
+          $userInfos = $userModel->getUserInfos($_POST['id'])[0];
         }
-        else 
+
+        if(isset($userInfos->pwd) && $_POST['pwd'])
         {
-          $this->badLoginInfos();
+            if($userInfos->pwd == $_POST['pwd'])
+            {
+              $autorized = true;
+            }
         }
-      }
-      else 
-      {
-        $this->badLoginInfos();
-      }
+        if($autorized)
+        {
+          $_SESSION['userData'] = clone $userInfos;
+                $data = [
+                  "title" => "Accueil"
+              ];
+              return redirect()->route('index');
+        }
+        else
+        {
+          return view('security/log-in.php');
+        }
     }
+
+
 
     public function signIn() //Pour s’inscrire
     {
-		return view('security/sign-in.php');
+      $data = [
+        "title" => "Inscription"
+       ,"message" => ''
+     ];
+		  return view('security/sign-in.php', $data);
     }
 
     public function addMember() //Pour s’inscrire
     {
-		return view('security/sign-in.php');
+
+      $userModel = new UserModel();
+
+      //Infos récupérées
+      $mdp1 = $_POST['pwd1'];
+      $mdp2 = $_POST['pwd2'];
+      $id = $_POST['id'];
+
+      //l'ajout est il réussi ?
+      $sucess = false;
+      
+      //message qu'on affichera à l'utilisateur en cas d'erreur
+      $message = '';
+
+      if($mdp1 == $mdp2)
+      {
+          $userInfos = $userModel->getUserInfos($id);
+          if(count($userInfos) == 0)
+          {
+            $db      = \Config\Database::connect();
+            $builder = $db->table('User');
+            //on fait la requete d'ajout
+            $new_user = [
+               'username' => $id
+              ,'firstname'  => $_POST['firstname']
+              ,'name'  => $_POST['name']
+              ,'pwd'  => $mdp1
+            ];
+            $builder->insert($new_user);
+          $sucess = true;
+          }
+          else
+          {
+            $message .= 'Ce nom d\'utilisateur est indisponible ';
+          }
+
+      }
+      else
+      {
+        $message .= 'Les mots de passe entrés diffèrent ';
+      }
+
+      if($sucess)
+      {
+        return view('security/log-in.php');
+      }
+      else
+      {
+        $data = [
+          "title" => "Inscription"
+         ,"message" => $message
+       ];
+       return view('security/sign-in.php', $data);
+      }
+     
+
+     
     }
+
+
+
+
 
     public function logOut() //Pour se déconnecter
     {
         //logout
+        session_destroy();
+        return redirect()->route('index');
     }
 
-    public function goodLoginInfos($datas)
-    {
-      $_SESSION['userData'] = clone $datas;
-      $data = [
-        "title" => "Accueil"
-       ,"userData" => $_SESSION['userData']
-       ,"datas" => $datas
-     ];
-      return view('test.php', $data);
-    }
-
-    public function badLoginInfos()
-    {
-      return redirect()->back();
-      //header('Location: '.site_url(route_to('login')));
-      //return view('security/log-in.php');
-    }
 }

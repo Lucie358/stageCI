@@ -24,9 +24,9 @@ main {
 }
 
 .companies {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
 }
 main {
   background-color: #c5dce43d;
@@ -41,10 +41,7 @@ main {
   max-width: 1400px;
   margin: auto;
 }
-.card {
-  margin: 10px 10px;
-  flex: 0 0 25%;
-}
+
 h1 {
   font-family: "Gameplay";
 }

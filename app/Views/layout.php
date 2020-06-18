@@ -35,10 +35,24 @@
             </ul>
             <ul class="navbar-nav ">
                 <li class="nav-item">
+<?php 
+                if($_SESSION['userData']->lvlrights < 0)
+                    {
+?>
                     <a class="nav-link" href="<?= site_url(route_to('login')) ?>">Se connecter</a>
+                    <?php
+                    }
+                    else
+                    {
+?>
+                    <a class="nav-link" href="<?= site_url(route_to('logOut')) ?>">Déconnexion</a>
+<?php
+                    }
+
+?>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-info " href="<?= site_url(route_to('signin')) ?>">S'inscrire</a>
+                    <a class="nav-link btn btn-info " href="<?= site_url(route_to('signIn')) ?>">S'inscrire</a>
                 </li>
             </ul>
         </div>
