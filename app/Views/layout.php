@@ -73,6 +73,7 @@
     </main>
     <footer>
         <p>Réalisé par Emeric Durdos & Lucie Brochet - DU WEB - 2020</p>
+        <p><a href="<?= site_url(route_to('legalNotices')) ?>" >Mentions légales</a> - <a href="<?= site_url(route_to('siteMap')) ?>" >plan du site</a> </p>
     </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

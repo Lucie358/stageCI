@@ -30,4 +30,12 @@ class CompanyModel extends Model
         $query = $builder->get();
         return $query->getResult()[0];
     }
+
+    public function deleteCompanyByID($id)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('Company');
+        $builder->where('id', $id);
+        $builder->delete();
+    }
 }

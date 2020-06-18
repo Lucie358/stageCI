@@ -48,4 +48,12 @@ class ContactModel extends Model
             return false;
         }
     }
+
+    public function deleteContactByEnt($id)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('Contact');
+        $builder->where('idEnt', $id);
+        $builder->delete();
+    }
 }
