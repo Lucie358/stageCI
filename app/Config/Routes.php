@@ -32,9 +32,9 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'CompanyController::index',['as' => 'index']);
 $routes->get('/log-in', 'SecurityController::login',['as' => 'login']);
-$routes->post('/log-in', 'SecurityController::authentication',['as' => 'login']);
+$routes->post('/authentication', 'SecurityController::authentication',['as' => 'authentication']);
 $routes->get('/sign-in', 'SecurityController::signIn',['as' => 'signIn']);
-$routes->post('/sign-in', 'SecurityController::addMember',['as' => 'signIn']);
+$routes->post('/addMember', 'SecurityController::addMember',['as' => 'addMember']);
 $routes->get('/log-out', 'SecurityController::logOut',['as' => 'logOut']);
 $routes->get('/admin', 'CompanyController::admin',['as' => 'admin']);
 $routes->get('/admin/edit', 'CompanyController::adminEdit',['as' => 'adminEdit']);

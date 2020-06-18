@@ -16,6 +16,7 @@ class CompanyController extends BaseController
 
 	//Route accueil
 	public function index() //Liste des annonces / Page d’accueil
+
 	{
 
 		$companyModel = new CompanyModel();
