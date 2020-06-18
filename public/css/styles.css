@@ -7,6 +7,21 @@
   src: url("../fonts/Avocado\ Creamy.ttf");
 }
 
+  
+html {
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+main {
+  flex: 1;
+  padding-bottom: 15px;
+
+}
 
 .companies {
   display: flex;
@@ -78,4 +93,30 @@ header::before {
 }
 .navbar-dark .navbar-left .nav-link:hover {
   color: #17a2b8;
+}
+
+footer {
+  background-color:#343A40 ;
+  color: white;
+  text-align: center;
+}
+
+
+/* BACKOFFICE */
+
+.admin_icon {
+  width: 25px;
+}
+a:hover {
+  text-decoration: none;
+}
+.content_admin{
+  margin: auto;
+  width: 80%;
+  margin-top:25px;
+}
+
+.table { 
+  margin-top: 20px; 
+  border: 1px solid rgb(207, 207, 207);
 }
