@@ -9,7 +9,11 @@ class SecurityController extends BaseController
  
     public function login() //Pour se connecter
     {
-		  return view('security/log-in.php');
+      $data = [
+        "title" => "Inscription"
+       ,"message" => ''
+     ];
+		  return view('security/log-in.php',$data);
     }
 
 
@@ -38,14 +42,11 @@ class SecurityController extends BaseController
         if($autorized)
         {
           $_SESSION['userData'] = clone $userInfos;
-                $data = [
-                  "title" => "Accueil"
-              ];
               return redirect()->route('index');
         }
         else
         {
-          return view('security/log-in.php');
+          return redirect()->route('login');
         }
     }
 
@@ -106,7 +107,7 @@ class SecurityController extends BaseController
 
       if($sucess)
       {
-        return view('security/log-in.php');
+        return redirect()->route('login');
       }
       else
       {

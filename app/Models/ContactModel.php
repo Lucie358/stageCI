@@ -21,4 +21,31 @@ class ContactModel extends Model
     {
         return $this->findAll();
     }
+
+    public function getContactByEn($idEnt)
+    {
+        $db = \Config\Database::connect();
+
+        $builder = $db->table('Contact');
+        $builder->select('*');
+
+        if (isset($idEnt) && is_numeric($idEnt))
+        {
+            $builder->where('idEnt', $idEnt);
+        }
+
+        $query = $builder->get();
+
+
+         $result = $query->getResult();
+
+        if(count($result) > 0)
+        {
+           return $result[0];
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

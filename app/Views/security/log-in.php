@@ -18,3 +18,4 @@
                 <input type="submit" name=connect value="login">
             </div>
         </form>
+<?= $this->endSection() ?>

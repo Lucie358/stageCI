@@ -31,3 +31,4 @@
             </div>
             <strong><?php echo $message ?></strong>
         </form>
+<?= $this->endSection() ?>

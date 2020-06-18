@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $entreprise['name']; ?></h5>
                         <p class="card-text"><?php echo $row->name . " - " . $row->department; ?></p>
-                        <a href="#" class="card-link">En savoir +</a>
+                        <a href="<?= site_url(route_to('internship',$entreprise['id']))?>" class="card-link">En savoir +</a>
                     </div>
                 </div>
     <?php endif;
