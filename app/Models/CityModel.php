@@ -28,7 +28,6 @@ class CityModel extends Model
     {
         $db = \Config\Database::connect();
         $builder = $db->table('City');
-        //$builder->db->table('City');
         $builder->select('*');
         
         if (isset($cityname))
