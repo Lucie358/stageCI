@@ -16,7 +16,6 @@ class CompanyController extends BaseController
 
 	//Route accueil
 	public function index() //Liste des annonces / Page d’accueil
-<<<<<<< HEAD
     {
 		$this->sessionCheck();
 
@@ -49,51 +48,6 @@ class CompanyController extends BaseController
 	public function admin() //Toutes les offres - table CRUD
 	{
 		
-=======
-
-	{
-
-		$companyModel = new CompanyModel();
-		$cityModel = new CityModel();
-
-
-		$companies = $companyModel->getAll();
-
-
-		$cityWanted = [];
-		foreach ($companies as $entreprise) {
-			if (!in_array($entreprise['city'], $cityWanted)) {
-				$cityWanted[] = $entreprise['city'];
-			}
-		}
-		$cityInfos = $cityModel->getCityInfos($cityWanted);
-
-		$data = [
-			"title" => "Accueil",
-			 "companies" => $companies, 
-			 "cities" => $cityInfos
-		];
-
-		return view('company/index.php', $data);
-	}
-
-
-	public function admin() //Toutes les offres - table CRUD
-	{
-		$companyModel = new CompanyModel();
-		$cityModel = new CityModel();
-
-		$companies = $companyModel->getAll();
-
-		$cityWanted = [];
-		foreach ($companies as $entreprise) {
-			if (!in_array($entreprise['city'], $cityWanted)) {
-				$cityWanted[] = $entreprise['city'];
-			}
-		}
-		$cityInfos = $cityModel->getCityInfos($cityWanted);
-
->>>>>>> master
 		$data = [
 			"title" => "Administration",
 			"companies" => $companies,
