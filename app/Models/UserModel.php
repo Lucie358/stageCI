@@ -21,4 +21,17 @@ class UserModel extends Model
     {
         return $this->findAll();
     }
+
+    public function getUserInfos($username)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('User');
+        $builder->select('*');
+        if (isset($username))
+        {
+            $builder->where('username', $username);
+        }
+        $query = $builder->get();
+        return $query->getResult();
+    }
 }

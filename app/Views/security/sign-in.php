@@ -7,8 +7,12 @@
                 <input type="text" name="id" id="id" required>
             </div>
             <div>
-                <label for="pwd">Prénom : </label>
-                <input  type="text" name="pwd" id="pwd" required>
+                <label for="pwd">Mot de passe : </label>
+                <input  type="password" name="pwd" id="pwd" required>
+            </div>
+            <div>
+                <label for="pwd">Confirmez votre mot de passe : </label>
+                <input  type="password" name="pwd" id="pwd" required>
             </div>
             <div>
                 <label for="register">S'inscrire</label>
