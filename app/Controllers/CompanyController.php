@@ -16,28 +16,33 @@ class CompanyController extends BaseController
 
 	//Route accueil
 	public function index() //Liste des annonces / Page d’accueil
-	{
+    {
 
-		$companyModel = new CompanyModel();
-		$cityModel = new CityModel();
+        $companyModel = new CompanyModel();
+        $cityModel = new CityModel();
 
-		
-		$companies = $companyModel->getAll();
+        
+        $companies = $companyModel->getAll();
 
-		$cityInfos =[];
-		foreach($companies as $entreprise)
-		{
-			$cityInfos[] = $cityModel->getCityInfos($entreprise['city'])[0];
-		}
+        
+        $cityWanted = [];
+        foreach($companies as $entreprise)
+        {
+            if (!in_array( $entreprise['city'],$cityWanted))
+            {
+            $cityWanted[] = $entreprise['city'];
+            }
+        }
+        $cityInfos = $cityModel->getCityInfos($cityWanted);
 
-		$data = [
-			 "title" => "Accueil"
-			,"companies" => $companies
-			,"cities" => $cityInfos
-		];
+        $data = [
+             "title" => "Accueil"
+            ,"companies" => $companies
+            ,"cities" => $cityInfos
+        ];
 
-		return view('company/index.php', $data);
-	}
+        return view('company/index.php', $data);
+    }
 
 	public function admin() //Toutes les offres - table CRUD
 	{

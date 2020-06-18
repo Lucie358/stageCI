@@ -30,9 +30,17 @@ class CityModel extends Model
         $builder = $db->table('City');
         //$builder->db->table('City');
         $builder->select('*');
+        
         if (isset($cityname))
         {
-            $builder->where('name', $cityname);
+            if(is_array($cityname))
+            {
+                $builder->whereIn('name', $cityname);
+            }
+            else
+            {
+                $builder->where('name', $cityname);
+            }
         }
         $query = $builder->get();
         return $query->getResult();
