@@ -92,8 +92,21 @@ class CompanyController extends BaseController
 		}
 	}
 
-	public function adminRemove() //Suppression d’une annonces (réservé aux admins)
+	public function adminRemove($id) //Suppression d’une annonces (réservé aux admins)
 	{
+
+		if($_SESSION['userData']->lvlrights > 0)
+		{
+			$contactModel = new ContactModel();
+			$contactModel->deleteContactByEnt($id);
+			$companyModel = new CompanyModel();
+			$companyModel->deleteCompanyByID($id);
+			return redirect()->route('admin');
+		}
+		else
+		{
+			return redirect()->route('login');
+		}
 	}
 
 	public function internship($id) //Détails de l’annonce “id” (nécessite une connexion)
@@ -131,7 +144,8 @@ class CompanyController extends BaseController
 		$companyModel = new CompanyModel();
 
 		$data = [
-			"title" => "Annonceurs", "companies" => $companyModel->getAll()
+			"title" => "Annonceurs"
+			, "companies" => $companyModel->getAll()
 		];
 		return view('company/companies.php', $data);
 	}
@@ -145,4 +159,5 @@ class CompanyController extends BaseController
 			$_SESSION['userData'] = clone $userInfos[0];
 		}
 	}
+	
 }

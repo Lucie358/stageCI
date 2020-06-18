@@ -6,8 +6,8 @@
     <h2>Les entreprises qui proposent un stage:</h2>
 <div class="companies">
     <?php
-    foreach ($companies as $entreprise) :
-        foreach ($cities as $row) :
+    foreach ($cities as $row) :
+        foreach ($companies as $entreprise) :
             if ($row->name == $entreprise['city']) :
     ?>
                 <div class="card" style="width: 18rem;">

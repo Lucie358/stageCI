@@ -18,4 +18,5 @@
                 <input type="submit" name=connect value="login">
             </div>
         </form>
+        <strong><?php echo $message ?></strong>
 <?= $this->endSection() ?>
