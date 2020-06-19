@@ -110,16 +110,18 @@ class CompanyController extends BaseController
 			if (!$this->validate(
 				[
 					'name' =>
-					'required|min_length[3]|max_length[30]',
+					'required|min_length[3]|max_length[50]',
 					'phone' => 'required|min_length[10]|max_length[10]',
 					'mail' => 'required|min_length[3]',
 					'firstname' => 'required|min_length[3]',
 					'lastname' => 'required|min_length[3]',
+					'address' => 'required|min_length[3]',
+
 				],
 				[
 					'name' => [
-						'min_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 30 caractères',
-						'max_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 30 caractères',
+						'min_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 50 caractères',
+						'max_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 50 caractères',
 						'required' => 'Vous devez remplir le nom de l\'entreprise'
 					],
 					'phone' => [
@@ -138,6 +140,10 @@ class CompanyController extends BaseController
 					'lastname' => [
 						'min_length' => 'Le nom doit contenir au moins 3 caratères',
 						'required' => 'Vous devez remplir le nom'
+					],
+					'address' => [
+						'min_length' => 'L\'adresse doit contenir au moins 3 caractères',
+						'required' => 'Vous devez remplir l\'adresse'
 					]
 				]
 			)) {
