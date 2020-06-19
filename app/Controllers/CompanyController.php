@@ -54,20 +54,28 @@ class CompanyController extends BaseController
 		}
 		$cityInfos = $cityModel->getCityInfos($cityWanted);
 
-		$data = [
-			"title" => "Administration",
-			"companies" => $companies,
-			"cities" => $cityInfos
-		];
-		return view('company/admin.php', $data);
+		if ($_SESSION['userData']->lvlrights > 0) {
+			$data = [
+				"title" => "Administration",
+				"companies" => $companies,
+				"cities" => $cityInfos
+			];
+			return view('company/admin.php', $data);
+		} else {
+			return redirect()->route('login');
+		}
 	}
 
 	public function adminEdit() //Edition des annonces (réservé aux admins)
 	{
-		$data = [
-			"title" => "Modifier l'annonce"
-		];
-		return view('company/edit.php', $data);
+		if ($_SESSION['userData']->lvlrights > 0) {
+			$data = [
+				"title" => "Modifier l'annonce"
+			];
+			return view('company/edit.php');
+		} else {
+			return redirect()->route('login');
+		}
 	}
 
 	public function showAdminAdd() //Ajout d’une annonce (réservé aux admins)
@@ -92,75 +100,105 @@ class CompanyController extends BaseController
 		$cityModel = new CityModel();
 		$cities = $cityModel->getAll();
 
-		$data = [
-			'title' => 'Creation d\'une nouvelle tache',
-			"cities" => $cities
-		];
+		if ($_SESSION['userData']->lvlrights > 0) {
+			$data = [
+				'title' => 'Creation d\'une nouvelle tache',
+				"cities" => $cities
+			];
 
-		if (!$this->validate([
-			'name' =>
-			'required|min_length[3]|max_length[30]',
-			'phone' => 'required|min_length[10]|max_length[10]',
-			'mail' => 'required|min_length[3]'
-		], [
-			'name' => [
-				'min_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 30 caractères',
-				'max_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 30 caractères',
-				'required' => 'Vous devez remplir le nom de l\'entreprise'				
-			],
-			'phone' => [
-				'min_length' => 'Le numéro de téléphone doit avoir 10 chiffres',
-				'max_length' => 'Le numéro de téléphone doit avoir 10 chiffres',
-				'required' => 'Vous devez remplir le numéro de téléphone'				
-			],
-			'mail' => [
-				'min_length' => 'Le mail doit contenir au moins 3 caratères',
-				'required' => 'Vous devez remplir le mail'				
-			],
-			
-		])) {
-			echo view('company/add', $data);
+
+			if (!$this->validate(
+				[
+					'name' =>
+					'required|min_length[3]|max_length[30]',
+					'phone' => 'required|min_length[10]|max_length[10]',
+					'mail' => 'required|min_length[3]',
+					'firstname' => 'required|min_length[3]',
+					'lastname' => 'required|min_length[3]',
+				],
+				[
+					'name' => [
+						'min_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 30 caractères',
+						'max_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 30 caractères',
+						'required' => 'Vous devez remplir le nom de l\'entreprise'
+					],
+					'phone' => [
+						'min_length' => 'Le numéro de téléphone doit avoir 10 chiffres',
+						'max_length' => 'Le numéro de téléphone doit avoir 10 chiffres',
+						'required' => 'Vous devez remplir le numéro de téléphone'
+					],
+					'mail' => [
+						'min_length' => 'Le mail doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le mail'
+					],
+					'firstname' => [
+						'min_length' => 'Le prénom doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le prénom'
+					],
+					'lastname' => [
+						'min_length' => 'Le nom doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le nom'
+					]
+				]
+			)) {
+				echo view('company/add', $data);
+			} else {
+				$company->save([
+					'name' => $this->request->getVar('name'),
+					'address' => $this->request->getVar('address'),
+					'city' => $this->request->getVar('cities'),
+				]);
+
+				$contact->save([
+					'firstname' => $this->request->getVar('firstname'),
+					'name' => $this->request->getVar('lastname'),
+					'phone' => $this->request->getVar('phone'),
+					'mail' => $this->request->getVar('mail'),
+					'idEnt' => $company->insertID,
+				]);
+
+				return redirect('admin');
+			}
 		} else {
-			$company->save([
-				'name' => $this->request->getVar('name'),
-				'address' => $this->request->getVar('address'),
-				'city' => $this->request->getVar('cities'),
-			]);
-
-			$contact->save([
-				'firstname' => $this->request->getVar('firstname'),
-				'name' => $this->request->getVar('lastname'),
-				'phone' => $this->request->getVar('phone'),
-				'mail' => $this->request->getVar('mail'),
-				'idEnt' => $company->insertID,
-			]);
-
-			return redirect('admin');
+			return redirect()->route('login');
 		}
 	}
 
-
-
-
-
-
-	public function adminRemove() //Suppression d’une annonces (réservé aux admins)
+	public function adminRemove($id) //Suppression d’une annonces (réservé aux admins)
 	{
+
+		if ($_SESSION['userData']->lvlrights > 0) {
+			$contactModel = new ContactModel();
+			$contactModel->deleteContactByEnt($id);
+			$companyModel = new CompanyModel();
+			$companyModel->deleteCompanyByID($id);
+			return redirect()->route('admin');
+		} else {
+			return redirect()->route('login');
+		}
 	}
 
-
-
-
-	public function internship() //Détails de l’annonce “id” (nécessite une connexion)
+	public function internship($id) //Détails de l’annonce “id” (nécessite une connexion)
 	{
 		$this->sessionCheck();
 
-		$companyModel = new CompanyModel();
 
-		$data = [
-			"title" => "Détails", "companies" => $companyModel->getAll()
-		];
-		return view('company/index.php', $data);
+		//si l'utilisateur est connecté
+		if ($_SESSION['userData']->lvlrights != -1) {
+			$companyModel = new CompanyModel();
+			$contactModel = new ContactModel();
+			//on récupère les infos sur l'entreprise en question
+			$companyInfos = $companyModel->getCompanyInfos($id);
+			$contactInfos = $contactModel->getContactByEn($id);
+			//
+			$data = [
+				"title" => "Détails", "companyInfos" => $companyInfos, "contactInfos" => $contactInfos
+
+			];
+			return view('company/internship.php', $data);
+		} else {
+			return redirect()->route('login');
+		}
 	}
 
 	public function companies() //Liste de toutes les entreprises de la BDD

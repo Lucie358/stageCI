@@ -99,6 +99,20 @@ footer {
 }
 
 
+.form_container{
+  width: 50%;
+    margin: auto;
+    margin-top: 26px;
+}
+.form_container h1 {
+  text-align: center;
+}
+.form_container button{
+  margin: auto;
+  display: block;
+}
+
+
 /* BACKOFFICE */
 
 .admin_icon {

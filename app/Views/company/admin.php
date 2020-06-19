@@ -1,7 +1,7 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content_admin') ?>
 
-<a class="btn btn-dark" href="<?= site_url(route_to('adminAdd')) ?>">Ajouter une offre de stage<img class="admin_icon ml-2" src="<?php echo base_url(); ?>/img/icons/plus.png" alt="edit"> </a>
+<a class="btn btn-dark" href="<?= site_url(route_to('showAdminAdd')) ?>">Ajouter une offre de stage<img class="admin_icon ml-2" src="<?php echo base_url(); ?>/img/icons/plus.png" alt="edit"> </a>
 <table class="table table-striped">
     <thead>
         <tr>
