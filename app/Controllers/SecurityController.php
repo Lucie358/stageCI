@@ -24,11 +24,14 @@ class SecurityController extends BaseController
     $autorized = false;
 
     if (count($userInfos) > 0) {
+      
       $userInfos = $userModel->getUserInfos($_POST['id'])[0];
     }
 
-    if (isset($userInfos->pwd) && $_POST['pwd']) {
-      if ($userInfos->pwd == $_POST['pwd']) {
+    if (isset($userInfos->pwd) && $_POST['pwd']) 
+    {
+      if (password_verify($_POST['pwd'],$userInfos->pwd)) 
+      {
         $autorized = true;
       }
     }
@@ -69,14 +72,18 @@ class SecurityController extends BaseController
     //message qu'on affichera à l'utilisateur en cas d'erreur
     $message = '';
 
-    if ($mdp1 == $mdp2) {
+    if ($mdp1 == $mdp2) 
+    {
       $userInfos = $userModel->getUserInfos($id);
-      if (count($userInfos) == 0) {
+      
+      if (count($userInfos) == 0) 
+      {
         $db      = \Config\Database::connect();
+        $hashed_password = password_hash($mdp1, PASSWORD_DEFAULT);
         $builder = $db->table('User');
         //on fait la requete d'ajout
         $new_user = [
-          'username' => $id, 'firstname'  => $_POST['firstname'], 'name'  => $_POST['name'], 'pwd'  => $mdp1
+          'username' => $id, 'firstname'  => $_POST['firstname'], 'name'  => $_POST['name'], 'pwd'  => $hashed_password
         ];
         $builder->insert($new_user);
         $sucess = true;
