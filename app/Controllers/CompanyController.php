@@ -16,78 +16,150 @@ class CompanyController extends BaseController
 
 	//Route accueil
 	public function index() //Liste des annonces / Page d’accueil
-    {
+	{
 		$this->sessionCheck();
 
-        $companyModel = new CompanyModel();
-        $cityModel = new CityModel();
+		$companyModel = new CompanyModel();
+		$cityModel = new CityModel();
 
-        
-        $companies = $companyModel->getAll();
 
-        
-        $cityWanted = [];
-        foreach($companies as $entreprise)
-        {
-            if (!in_array( $entreprise['city'],$cityWanted))
-            {
-            $cityWanted[] = $entreprise['city'];
-            }
-        }
-        $cityInfos = $cityModel->getCityInfos($cityWanted);
+		$companies = $companyModel->getAll();
 
-        $data = [
-             "title" => "Accueil"
-            ,"companies" => $companies
-            ,"cities" => $cityInfos
-        ];
+
+		$cityWanted = [];
+		foreach ($companies as $entreprise) {
+			if (!in_array($entreprise['city'], $cityWanted)) {
+				$cityWanted[] = $entreprise['city'];
+			}
+		}
+		$cityInfos = $cityModel->getCityInfos($cityWanted);
+
+		$data = [
+			"title" => "Accueil", "companies" => $companies, "cities" => $cityInfos
+		];
 		//return view('test.php', $data);
-        return view('company/index.php', $data);
-    }
+		return view('company/index.php', $data);
+	}
 
 	public function admin() //Toutes les offres - table CRUD
 	{
-		if($_SESSION['userData']->lvlrights > 0)
-		{	
+		$companyModel = new CompanyModel();
+		$cityModel = new CityModel();
+		$companies = $companyModel->getAll();
+		$cityWanted = [];
+		foreach ($companies as $entreprise) {
+			if (!in_array($entreprise['city'], $cityWanted)) {
+				$cityWanted[] = $entreprise['city'];
+			}
+		}
+		$cityInfos = $cityModel->getCityInfos($cityWanted);
+
+		if ($_SESSION['userData']->lvlrights > 0) {
 			$data = [
 				"title" => "Administration",
 				"companies" => $companies,
 				"cities" => $cityInfos
 			];
 			return view('company/admin.php', $data);
-		}
-		else
-		{
+		} else {
 			return redirect()->route('login');
 		}
 	}
 
 	public function adminEdit() //Edition des annonces (réservé aux admins)
 	{
-		if($_SESSION['userData']->lvlrights > 0)
-		{
+		if ($_SESSION['userData']->lvlrights > 0) {
 			$data = [
 				"title" => "Modifier l'annonce"
 			];
 			return view('company/edit.php');
-		}
-		else
-		{
+		} else {
 			return redirect()->route('login');
 		}
 	}
 
+	public function showAdminAdd() //Ajout d’une annonce (réservé aux admins)
+	{
+		helper('form');
+		$cityModel = new CityModel();
+		$cities = $cityModel->getAll();
+
+		$data = [
+			'title' => 'Creation d\'une nouvelle tache',
+			"cities" => $cities
+		];
+
+		echo view('company/add', $data);
+	}
 	public function adminAdd() //Ajout d’une annonce (réservé aux admins)
 	{
-		if($_SESSION['userData']->lvlrights > 0)
-		{
+		helper('form');
+		$company = new CompanyModel();
+		$contact = new ContactModel();
+
+		$cityModel = new CityModel();
+		$cities = $cityModel->getAll();
+
+		if ($_SESSION['userData']->lvlrights > 0) {
 			$data = [
-				"title" => "Nouvelle annonce"
+				'title' => 'Creation d\'une nouvelle tache',
+				"cities" => $cities
 			];
-			return view('company/add.php');
-		}
-		else
-		{
+
+
+			if (!$this->validate(
+				[
+					'name' =>
+					'required|min_length[3]|max_length[30]',
+					'phone' => 'required|min_length[10]|max_length[10]',
+					'mail' => 'required|min_length[3]',
+					'firstname' => 'required|min_length[3]',
+					'lastname' => 'required|min_length[3]',
+				],
+				[
+					'name' => [
+						'min_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 30 caractères',
+						'max_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 30 caractères',
+						'required' => 'Vous devez remplir le nom de l\'entreprise'
+					],
+					'phone' => [
+						'min_length' => 'Le numéro de téléphone doit avoir 10 chiffres',
+						'max_length' => 'Le numéro de téléphone doit avoir 10 chiffres',
+						'required' => 'Vous devez remplir le numéro de téléphone'
+					],
+					'mail' => [
+						'min_length' => 'Le mail doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le mail'
+					],
+					'firstname' => [
+						'min_length' => 'Le prénom doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le prénom'
+					],
+					'lastname' => [
+						'min_length' => 'Le nom doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le nom'
+					]
+				]
+			)) {
+				echo view('company/add', $data);
+			} else {
+				$company->save([
+					'name' => $this->request->getVar('name'),
+					'address' => $this->request->getVar('address'),
+					'city' => $this->request->getVar('cities'),
+				]);
+
+				$contact->save([
+					'firstname' => $this->request->getVar('firstname'),
+					'name' => $this->request->getVar('lastname'),
+					'phone' => $this->request->getVar('phone'),
+					'mail' => $this->request->getVar('mail'),
+					'idEnt' => $company->insertID,
+				]);
+
+				return redirect('admin');
+			}
+		} else {
 			return redirect()->route('login');
 		}
 	}
@@ -95,16 +167,13 @@ class CompanyController extends BaseController
 	public function adminRemove($id) //Suppression d’une annonces (réservé aux admins)
 	{
 
-		if($_SESSION['userData']->lvlrights > 0)
-		{
+		if ($_SESSION['userData']->lvlrights > 0) {
 			$contactModel = new ContactModel();
 			$contactModel->deleteContactByEnt($id);
 			$companyModel = new CompanyModel();
 			$companyModel->deleteCompanyByID($id);
 			return redirect()->route('admin');
-		}
-		else
-		{
+		} else {
 			return redirect()->route('login');
 		}
 	}
@@ -113,10 +182,9 @@ class CompanyController extends BaseController
 	{
 		$this->sessionCheck();
 
-		
+
 		//si l'utilisateur est connecté
-		if($_SESSION['userData']->lvlrights != -1)
-		{
+		if ($_SESSION['userData']->lvlrights != -1) {
 			$companyModel = new CompanyModel();
 			$contactModel = new ContactModel();
 			//on récupère les infos sur l'entreprise en question
@@ -124,18 +192,13 @@ class CompanyController extends BaseController
 			$contactInfos = $contactModel->getContactByEn($id);
 			//
 			$data = [
-				"title" => "Détails"
-				,"companyInfos" => $companyInfos
-				,"contactInfos" => $contactInfos
+				"title" => "Détails", "companyInfos" => $companyInfos, "contactInfos" => $contactInfos
 
 			];
 			return view('company/internship.php', $data);
-		}
-		else
-		{
+		} else {
 			return redirect()->route('login');
 		}
-		
 	}
 
 	public function companies() //Liste de toutes les entreprises de la BDD
@@ -144,20 +207,17 @@ class CompanyController extends BaseController
 		$companyModel = new CompanyModel();
 
 		$data = [
-			"title" => "Annonceurs"
-			, "companies" => $companyModel->getAll()
+			"title" => "Annonceurs", "companies" => $companyModel->getAll()
 		];
 		return view('company/companies.php', $data);
 	}
 
 	public function sessionCheck()
 	{
-		if(!isset($_SESSION['userData']))
-		{
+		if (!isset($_SESSION['userData'])) {
 			$userModel = new UserModel();
 			$userInfos = $userModel->getUserInfos('Visiteur');
 			$_SESSION['userData'] = clone $userInfos[0];
 		}
 	}
-	
 }

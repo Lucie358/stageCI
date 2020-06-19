@@ -10,7 +10,7 @@
         foreach ($companies as $entreprise) :
             if ($row->name == $entreprise['city']) :
     ?>
-                <div class="card" style="width: 18rem;">
+                <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $entreprise['name']; ?></h5>
                         <p class="card-text"><?php echo $row->name . " - " . $row->department; ?></p>
