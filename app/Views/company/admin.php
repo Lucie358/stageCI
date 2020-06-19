@@ -25,7 +25,10 @@
                         <td><?php echo $entreprise['address']; ?></td>
                         <td><?php echo $entreprise['city']; ?></td>
                         <td> <a href="/"> <img class="admin_icon mr-1" src="<?php echo base_url(); ?>/img/icons/pencil.png" alt="edit"> </a>
-                            <a href="/"><img class="admin_icon ml-1" src="<?php echo base_url(); ?>/img/icons/close.png" alt="edit"></a> </td>
+                            <a <?php echo 'onclick="deleteConfirm(\''.$entreprise['id'].'\',\''.$entreprise['name'].'\',\''. site_url(route_to('adminRemove',$entreprise['id'])).'\')"'?>>
+                                <img class="admin_icon ml-1" src="<?php echo base_url(); ?>/img/icons/close.png" alt="edit">
+                            </a> 
+                        </td>
 
                     </tr>
         <?php endif;
@@ -34,5 +37,15 @@
         ?>
     </tbody>
 </table>
+<script>
 
+function deleteConfirm(id,nameEnt,url)
+{
+    if (confirm('souhaitez vous vraiment supprimer '+ nameEnt + ' de la base de données ?'))
+            {
+            
+                window.location.href = url;
+            }
+}
+</script>
 <?= $this->endSection() ?>
