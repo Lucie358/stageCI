@@ -5,7 +5,6 @@
 
     <?php
     $validation = \Config\Services::validation();
-    echo $validation->listErrors();
     ?>
     <?php
     echo form_open('companyController/adminAdd');
@@ -22,7 +21,7 @@
     </div>
     <div class="form-group">
         <label for="address">Adresse</label>
-        <input name="address" type="text" class="form-control <?php echo $validation->hasError('name') ? 'is-invalid' : '' ?>">
+        <input name="address" type="text" class="form-control <?php echo $validation->hasError('address') ? 'is-invalid' : '' ?>">
         <?php if ($validation->hasError('address')) : ?>
             <div class="invalid-feedback">
                 <?php echo $validation->getError('address') ?>
@@ -42,7 +41,7 @@
     <p>Informations concernant l'encadrant du stage / La personne a contacter : </p>
     <div class="form-group">
         <label for="lastname">Nom</label>
-        <input name="lastname" type="text" class="form-control <?php echo $validation->hasError('name') ? 'is-invalid' : '' ?>">
+        <input name="lastname" type="text" class="form-control <?php echo $validation->hasError('lastname') ? 'is-invalid' : '' ?>">
         <?php if ($validation->hasError('lastname')) : ?>
             <div class="invalid-feedback">
                 <?php echo $validation->getError('lastname') ?>
