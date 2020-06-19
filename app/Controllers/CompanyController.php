@@ -215,7 +215,6 @@ class CompanyController extends BaseController
 				"cities" => $cities
 			];
 
-
 			if (!$this->validate(
 				[
 					'name' =>
@@ -225,7 +224,7 @@ class CompanyController extends BaseController
 					'firstname' => 'required|min_length[3]',
 					'lastname' => 'required|min_length[3]',
 					'address' => 'required|min_length[3]',
-
+					'pic'=>'uploaded[pic]'
 				],
 				[
 					'name' => [
@@ -253,6 +252,9 @@ class CompanyController extends BaseController
 					'address' => [
 						'min_length' => 'L\'adresse doit contenir au moins 3 caractères',
 						'required' => 'Vous devez remplir l\'adresse'
+					],
+					'pic' => [
+						'uploaded' => 'Un fichier doit être transmis',
 					]
 				]
 			)) {
@@ -281,12 +283,7 @@ class CompanyController extends BaseController
 					'idEnt' => $company->insertID,
 				]);
 				}
-				
-				
-			
-
-				
-
+					
 				return redirect('admin');
 			}
 		} else {

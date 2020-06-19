@@ -115,7 +115,8 @@ footer {
 
 /* BACKOFFICE */
 
-.admin_icon {
+.admin_icon, 
+.icon {
   width: 25px;
 }
 a:hover {
