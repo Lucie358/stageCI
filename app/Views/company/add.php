@@ -9,7 +9,16 @@
     <?php
     echo form_open_multipart('companyController/adminAdd');
     ?>
-    <input type="file" name="picEnt" size="50" />
+    <div class="form-group">
+        <label for="pic">Choisissez une image pour votre entreprise (1Mo max) : </label>
+        <input type="file" name="picEnt" class="form-control-file <?php echo $validation->hasError('name') ? 'is-invalid' : '' ?>" id="pic" />
+        <?php if ($validation->hasError('pic')) : ?>
+            <div class="invalid-feedback">
+                <?php echo $validation->getError('pic') ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
     <div class="form-group">
         <label for="name">Nom de l'entreprise</label>
         <input name="name" type="text" class="form-control <?php echo $validation->hasError('name') ? 'is-invalid' : '' ?>">
