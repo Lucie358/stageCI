@@ -258,10 +258,19 @@ class CompanyController extends BaseController
 			)) {
 				echo view('company/add', $data);
 			} else {
-				$company->save([
+
+				$file = $this->request->getFile('picEnt');
+				$nameCompany = $this->request->getVar('name');
+				if ($file->isValid() && !$file->hasMoved()) {
+					$file->move('./img/uploads', $file->getRandomName());
+					// var_dump($file->getName());
+					// exit;
+
+					$company->save([
 					'name' => $this->request->getVar('name'),
 					'address' => $this->request->getVar('address'),
 					'city' => $this->request->getVar('cities'),
+					'pic' => $file->getName()
 				]);
 
 				$contact->save([
@@ -271,6 +280,12 @@ class CompanyController extends BaseController
 					'mail' => $this->request->getVar('mail'),
 					'idEnt' => $company->insertID,
 				]);
+				}
+				
+				
+			
+
+				
 
 				return redirect('admin');
 			}
@@ -278,6 +293,8 @@ class CompanyController extends BaseController
 			return redirect()->route('login');
 		}
 	}
+
+
 
 	public function adminRemove($id) //Suppression d’une annonces (réservé aux admins)
 	{

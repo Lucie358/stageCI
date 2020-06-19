@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class CompanyModel extends Model
 {
     protected $table = 'Company';
-    protected $allowedFields = ['name', 'address', 'city'];
+    protected $allowedFields = ['name', 'address', 'city','pic'];
 
 
 
