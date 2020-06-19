@@ -28,9 +28,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= site_url(route_to('companies')) ?>">Entreprises</a>
                 </li>
+<?php 
+                if($_SESSION['userData']->lvlrights > 0)
+                    {
+?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= site_url(route_to('admin')) ?>">Administration</a>
                 </li>
+<?php
+                    }
+?>
 
             </ul>
             <ul class="navbar-nav ">
@@ -51,9 +58,17 @@
 
 ?>
                 </li>
+<?php 
+                if($_SESSION['userData']->lvlrights < 0)
+                    {
+?>
                 <li class="nav-item">
                     <a class="nav-link btn btn-info " href="<?= site_url(route_to('signIn')) ?>">S'inscrire</a>
                 </li>
+                <?php
+                    }
+
+?>
             </ul>
         </div>
     </nav>

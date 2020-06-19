@@ -454,7 +454,7 @@ class Exceptions
 
 		$source = str_replace(["\r\n", "\r"], "\n", $source);
 		$source = explode("\n", highlight_string($source, true));
-		$source = str_replace('<br />', "\n", $source[1]);
+		$source = str_replace('<br/>', "\n", $source[1]);
 
 		$source = explode("\n", str_replace("\r\n", "\n", $source));
 
