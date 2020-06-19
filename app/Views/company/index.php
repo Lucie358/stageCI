@@ -11,6 +11,7 @@
             if ($row->name == $entreprise['city']) :
     ?>
                 <div class="card">
+                <img src="<?php echo base_url(); ?>/img/uploads/<?php echo $entreprise['pic'] ?>" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $entreprise['name']; ?></h5>
                         <p class="card-text"><?php echo $row->name . " - " . $row->department; ?></p>

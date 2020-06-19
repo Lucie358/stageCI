@@ -7,8 +7,9 @@
     $validation = \Config\Services::validation();
     ?>
     <?php
-    echo form_open('companyController/adminAdd');
+    echo form_open_multipart('companyController/adminAdd');
     ?>
+    <input type="file" name="picEnt" size="50" />
     <div class="form-group">
         <label for="name">Nom de l'entreprise</label>
         <input name="name" type="text" class="form-control <?php echo $validation->hasError('name') ? 'is-invalid' : '' ?>">
