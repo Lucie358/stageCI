@@ -24,7 +24,10 @@
                         <td><?php echo $entreprise['name']; ?></td>
                         <td><?php echo $entreprise['address']; ?></td>
                         <td><?php echo $entreprise['city']; ?></td>
-                        <td> <a href="/"> <img class="admin_icon mr-1" src="<?php echo base_url(); ?>/img/icons/pencil.png" alt="edit"> </a>
+                        <td> 
+                            <a href="<?php echo site_url(route_to('adminEdit',$entreprise['id'])) ?>"> 
+                                <img class="admin_icon mr-1" src="<?php echo base_url(); ?>/img/icons/pencil.png" alt="edit">
+                            </a>
                             <a <?php echo 'onclick="deleteConfirm(\''.$entreprise['id'].'\',\''.$entreprise['name'].'\',\''. site_url(route_to('adminRemove',$entreprise['id'])).'\')"'?>>
                                 <img class="admin_icon ml-1" src="<?php echo base_url(); ?>/img/icons/close.png" alt="edit">
                             </a> 

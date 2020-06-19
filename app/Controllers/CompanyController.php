@@ -66,13 +66,122 @@ class CompanyController extends BaseController
 		}
 	}
 
-	public function adminEdit() //Edition des annonces (réservé aux admins)
+	public function adminEdit($id) //Edition des annonces (réservé aux admins)
 	{
-		if ($_SESSION['userData']->lvlrights > 0) {
+		if ($_SESSION['userData']->lvlrights > 0) 
+		{
+			helper('form');
+			$contactModel = new ContactModel();
+			$contactInfos = $contactModel->getContactByEn($id);
+			
+			$companyModel = new CompanyModel();
+			$companyInfos = $companyModel->getCompanyInfos($id);
+
+			$cityModel = new CityModel();
+			$cities = $cityModel->getAll();
+
 			$data = [
 				"title" => "Modifier l'annonce"
+				,"contact" => $contactInfos
+				,"company" => $companyInfos
+				,"cities" => $cities
 			];
-			return view('company/edit.php');
+			return view('company/edit.php',$data);
+		}
+		 else 
+		{
+			return redirect()->route('login');
+		}
+	}
+
+	public function adminUpdate()//récupération et mise à jour des données
+	{
+		helper('form');
+		$contactModel = new ContactModel();
+		$contactInfos = $contactModel->getContactByEn($this->request->getVar('id'));
+		
+		$companyModel = new CompanyModel();
+		$companyInfos = $companyModel->getCompanyInfos($this->request->getVar('id'));
+
+		$cityModel = new CityModel();
+		$cities = $cityModel->getAll();
+
+		
+
+		if ($_SESSION['userData']->lvlrights > 0) 
+		{
+
+			//verification des données et mise à jour
+
+			if (!$this->validate(
+				[
+					'name' =>
+					'required|min_length[3]|max_length[50]',
+					'phone' => 'required|min_length[10]|max_length[10]',
+					'mail' => 'required|min_length[3]',
+					'firstname' => 'required|min_length[3]',
+					'lastname' => 'required|min_length[3]',
+					'address' => 'required|min_length[3]',
+
+				],
+				[
+					'name' => [
+						'min_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 50 caractères',
+						'max_length' => 'Le nom de l\'entreprise doit être compris entre 3 et 50 caractères',
+						'required' => 'Vous devez remplir le nom de l\'entreprise'
+					],
+					'phone' => [
+						'min_length' => 'Le numéro de téléphone doit avoir 10 chiffres',
+						'max_length' => 'Le numéro de téléphone doit avoir 10 chiffres',
+						'required' => 'Vous devez remplir le numéro de téléphone'
+					],
+					'mail' => [
+						'min_length' => 'Le mail doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le mail'
+					],
+					'firstname' => [
+						'min_length' => 'Le prénom doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le prénom'
+					],
+					'lastname' => [
+						'min_length' => 'Le nom doit contenir au moins 3 caratères',
+						'required' => 'Vous devez remplir le nom'
+					],
+					'address' => [
+						'min_length' => 'L\'adresse doit contenir au moins 3 caractères',
+						'required' => 'Vous devez remplir l\'adresse'
+					]
+				]
+			)) {
+				$data = [
+					"title" => "Modifier l'annonce"
+					,"contact" => $contactInfos
+					,"company" => $companyInfos
+					,"cities" => $cities
+				];
+				return view('company/edit.php',$data);
+			} 
+			else 
+			{
+				//on ajoute les données
+				$companyModel->update($this->request->getVar('id'),[
+					'name' => $this->request->getVar('name'),
+					'address' => $this->request->getVar('address'),
+					'city' => $this->request->getVar('cities'),
+				]);
+
+				$contactModel
+				->where('idEnt', $this->request->getVar('id'))
+				->set([
+					'firstname' => $this->request->getVar('firstname'),
+					'name' => $this->request->getVar('lastname'),
+					'phone' => $this->request->getVar('phone'),
+					'mail' => $this->request->getVar('mail'),
+				])
+				->update();
+
+				return redirect()->route('admin');
+			}
 		} else {
 			return redirect()->route('login');
 		}
