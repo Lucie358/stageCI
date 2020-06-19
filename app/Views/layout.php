@@ -74,8 +74,8 @@
     </nav>
     <header>
         <div class="title_header">
-            <h1>Try n' Catch</h1>
-            <h2>Trouves ton stage d'Exception !</h2>
+            <h1><span class="color-title">Try</span> n' <span class="color-title">Catch</span></h1>
+            <h2>Trouves ton stage d'<span class="color-title">Exception</span> !</h2>
         </div>
     </header>
 
