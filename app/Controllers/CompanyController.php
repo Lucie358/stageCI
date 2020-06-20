@@ -262,7 +262,7 @@ class CompanyController extends BaseController
 			} else {
 
 				$file = $this->request->getFile('picEnt');
-				$nameCompany = $this->request->getVar('name');
+
 				if ($file->isValid() && !$file->hasMoved()) {
 					$file->move('./img/uploads', $file->getRandomName());
 					// var_dump($file->getName());
