@@ -68,12 +68,11 @@ class CompanyController extends BaseController
 
 	public function adminEdit($id) //Edition des annonces (réservé aux admins)
 	{
-		if ($_SESSION['userData']->lvlrights > 0) 
-		{
+		if ($_SESSION['userData']->lvlrights > 0) {
 			helper('form');
 			$contactModel = new ContactModel();
 			$contactInfos = $contactModel->getContactByEn($id);
-			
+
 			$companyModel = new CompanyModel();
 			$companyInfos = $companyModel->getCompanyInfos($id);
 
@@ -81,35 +80,29 @@ class CompanyController extends BaseController
 			$cities = $cityModel->getAll();
 
 			$data = [
-				"title" => "Modifier l'annonce"
-				,"contact" => $contactInfos
-				,"company" => $companyInfos
-				,"cities" => $cities
+				"title" => "Modifier l'annonce", "contact" => $contactInfos, "company" => $companyInfos, "cities" => $cities
 			];
-			return view('company/edit.php',$data);
-		}
-		 else 
-		{
+			return view('company/edit.php', $data);
+		} else {
 			return redirect()->route('login');
 		}
 	}
 
-	public function adminUpdate()//récupération et mise à jour des données
+	public function adminUpdate() //récupération et mise à jour des données
 	{
 		helper('form');
 		$contactModel = new ContactModel();
 		$contactInfos = $contactModel->getContactByEn($this->request->getVar('id'));
-		
+
 		$companyModel = new CompanyModel();
 		$companyInfos = $companyModel->getCompanyInfos($this->request->getVar('id'));
 
 		$cityModel = new CityModel();
 		$cities = $cityModel->getAll();
 
-		
 
-		if ($_SESSION['userData']->lvlrights > 0) 
-		{
+
+		if ($_SESSION['userData']->lvlrights > 0) {
 
 			//verification des données et mise à jour
 
@@ -154,31 +147,45 @@ class CompanyController extends BaseController
 				]
 			)) {
 				$data = [
-					"title" => "Modifier l'annonce"
-					,"contact" => $contactInfos
-					,"company" => $companyInfos
-					,"cities" => $cities
+					"title" => "Modifier l'annonce", "contact" => $contactInfos, "company" => $companyInfos, "cities" => $cities
 				];
-				return view('company/edit.php',$data);
-			} 
-			else 
-			{
+				return view('company/edit.php', $data);
+			} else {
+				$file = $this->request->getFile('picEnt');
+
+				if ($file->getName() == "") {
+					var_dump('fichier vide--');
+					$fileToUpdate = $companyInfos->pic;
+				} else {
+					if ($file->isValid() && !$file->hasMoved()) {
+						$file->move('./img/uploads', $file->getRandomName());
+						unlink('./img/uploads/'.$companyInfos->pic);
+						$fileToUpdate = $file->getName();
+						// var_dump($file->getName());
+						// exit;
+					}
+				}
+
+
+
 				//on ajoute les données
-				$companyModel->update($this->request->getVar('id'),[
+				$companyModel->update($this->request->getVar('id'), [
 					'name' => $this->request->getVar('name'),
 					'address' => $this->request->getVar('address'),
 					'city' => $this->request->getVar('cities'),
+					'pic' => $fileToUpdate,
+
 				]);
 
 				$contactModel
-				->where('idEnt', $this->request->getVar('id'))
-				->set([
-					'firstname' => $this->request->getVar('firstname'),
-					'name' => $this->request->getVar('lastname'),
-					'phone' => $this->request->getVar('phone'),
-					'mail' => $this->request->getVar('mail'),
-				])
-				->update();
+					->where('idEnt', $this->request->getVar('id'))
+					->set([
+						'firstname' => $this->request->getVar('firstname'),
+						'name' => $this->request->getVar('lastname'),
+						'phone' => $this->request->getVar('phone'),
+						'mail' => $this->request->getVar('mail'),
+					])
+					->update();
 
 				return redirect()->route('admin');
 			}
@@ -224,7 +231,7 @@ class CompanyController extends BaseController
 					'firstname' => 'required|min_length[3]',
 					'lastname' => 'required|min_length[3]',
 					'address' => 'required|min_length[3]',
-					'pic'=>'uploaded[pic]'
+					'pic' => 'uploaded[pic]'
 				],
 				[
 					'name' => [
@@ -269,21 +276,21 @@ class CompanyController extends BaseController
 					// exit;
 
 					$company->save([
-					'name' => $this->request->getVar('name'),
-					'address' => $this->request->getVar('address'),
-					'city' => $this->request->getVar('cities'),
-					'pic' => $file->getName()
-				]);
+						'name' => $this->request->getVar('name'),
+						'address' => $this->request->getVar('address'),
+						'city' => $this->request->getVar('cities'),
+						'pic' => $file->getName()
+					]);
 
-				$contact->save([
-					'firstname' => $this->request->getVar('firstname'),
-					'name' => $this->request->getVar('lastname'),
-					'phone' => $this->request->getVar('phone'),
-					'mail' => $this->request->getVar('mail'),
-					'idEnt' => $company->insertID,
-				]);
+					$contact->save([
+						'firstname' => $this->request->getVar('firstname'),
+						'name' => $this->request->getVar('lastname'),
+						'phone' => $this->request->getVar('phone'),
+						'mail' => $this->request->getVar('mail'),
+						'idEnt' => $company->insertID,
+					]);
 				}
-					
+
 				return redirect('admin');
 			}
 		} else {
