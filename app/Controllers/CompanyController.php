@@ -323,13 +323,19 @@ class CompanyController extends BaseController
 		if ($_SESSION['userData']->lvlrights != -1) {
 			$companyModel = new CompanyModel();
 			$contactModel = new ContactModel();
+			$cityModel = new CityModel();
+		
 			//on récupère les infos sur l'entreprise en question
 			$companyInfos = $companyModel->getCompanyInfos($id);
 			$contactInfos = $contactModel->getContactByEn($id);
-			//
-			$data = [
-				"title" => "Détails", "companyInfos" => $companyInfos, "contactInfos" => $contactInfos
+			$cityWanted = $companyInfos->city;
+			$cityInfos = $cityModel->getCityInfos($cityWanted);
 
+			$data = [
+				"title" => "Détails", 
+				"companyInfos" => $companyInfos, 
+				"contactInfos" => $contactInfos,
+				"cityInfos" => $cityInfos
 			];
 			return view('company/internship.php', $data);
 		} else {
