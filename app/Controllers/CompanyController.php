@@ -201,7 +201,7 @@ class CompanyController extends BaseController
 		$cities = $cityModel->getAll();
 
 		$data = [
-			'title' => 'Creation d\'une nouvelle tache',
+			'title' => 'Creation d\'une nouvelle offre',
 			"cities" => $cities
 		];
 
@@ -230,8 +230,7 @@ class CompanyController extends BaseController
 					'mail' => 'required|min_length[3]',
 					'firstname' => 'required|min_length[3]',
 					'lastname' => 'required|min_length[3]',
-					'address' => 'required|min_length[3]',
-					'pic' => 'uploaded[pic]'
+					'address' => 'required|min_length[3]'
 				],
 				[
 					'name' => [
@@ -259,9 +258,6 @@ class CompanyController extends BaseController
 					'address' => [
 						'min_length' => 'L\'adresse doit contenir au moins 3 caractères',
 						'required' => 'Vous devez remplir l\'adresse'
-					],
-					'pic' => [
-						'uploaded' => 'Un fichier doit être transmis',
 					]
 				]
 			)) {
@@ -272,9 +268,7 @@ class CompanyController extends BaseController
 
 				if ($file->isValid() && !$file->hasMoved()) {
 					$file->move('./img/uploads', $file->getRandomName());
-					// var_dump($file->getName());
-					// exit;
-
+				
 					$company->save([
 						'name' => $this->request->getVar('name'),
 						'address' => $this->request->getVar('address'),
